@@ -1,19 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { ProductsWrapper } from "./Styled_Components";
-// import { useElvisContext } from "../Context_Api";
+import { PropTypes } from "prop-types";
 import { FaCartPlus } from "react-icons/fa";
+import {useElvisContext} from '../Context_Api';
 
 const Product = ({ products }) => {
   const { id, title, img, price, inCart } = products;
+  const { handleDetail,addToCart } = useElvisContext();
   return (
     <ProductsWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
       <div className="card">
-        <div className="img-container p-5" onClick={() => console.log("You clicked image container")}>
-          <Link to="details">
+        <div className="img-container p-5" onClick={() => handleDetail(id)}>
+          <Link to="/details">
             <img src={img} alt={title} className="card-img-top" />
           </Link>
-          <button className="cart-btn" disabled={inCart && true} onClick={() => console.log("Added to Cart")}>
+          <button className="cart-btn" disabled={inCart && true} onClick={() => addToCart(id)}>
             {inCart ? (
               <p className="text-capitalize mb-0" disabled>
                 {" "}
@@ -35,6 +37,17 @@ const Product = ({ products }) => {
       </div>
     </ProductsWrapper>
   );
+};
+
+// Defining Proptypes
+Product.propTypes = {
+  products: PropTypes.shape({
+    id: PropTypes.number,
+    img: PropTypes.string,
+    title: PropTypes.string,
+    price: PropTypes.number,
+    inCart: PropTypes.bool,
+  }),
 };
 
 export default Product;

@@ -5,7 +5,7 @@ import Product from './Product'
 
 const ProductList = () => {
   const { products} = useElvisContext();
-  console.log(products);
+  console.log("Products:",products);
   return (
     <>
       <div className="py-5">
