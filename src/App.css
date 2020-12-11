@@ -49,3 +49,7 @@ body {
   font-size: 1.2rem;
   color: var(--mainYellow);
 }
+.cart-icon:hover{
+  transition: all .4s;
+  transform: scale(1.2);
+}

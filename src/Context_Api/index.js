@@ -57,37 +57,69 @@ export const ProductProvider = ({ children }) => {
   };
 
   const increment = (id) => {
-    console.log("Increment here 👋");
+    let tempCart = [...cart];
+    const selectedProduct = tempCart.find((item) => item.id === id);
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+    product.count += 1;
+    product.total = product.count * product.price;
+    setCart([...tempCart]);
   };
+
   const decrement = (id) => {
-    console.log("Decrement here 👋");
+    let tempCart = [...cart];
+    const selectedProduct = tempCart.find((item) => item.id === id);
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+    product.count -= 1;
+    if (product.count === 0) {
+      removeItem(id)
+    } else {
+      product.total = product.count * product.price;
+      setCart([...tempCart]);
+    }
   };
+  useEffect(() => {
+    addTotals();
+  }, [increment, decrement]);
   const removeItem = (id) => {
-    console.log("Item removed 🤩");
+    let tempProducts = [...products];
+    let tempCart = [...cart];
+    tempCart = tempCart.filter((item) => item.id !== id);
+    const index = tempProducts.indexOf(getItem(id));
+    const removedProduct = tempProducts[index];
+    removedProduct.inCart = false;
+    removedProduct.count = 0;
+    removedProduct.total = 0;
+    setCart([...tempCart]);
+    setProducts([...tempProducts]);
   };
+
+  useEffect(() => {
+    addTotals();
+  }, [removeItem]);
   const clearCart = () => {
     setCart([]);
     productsCopy();
   };
   const addTotals = () => {
     let subTotal = 0;
-    cart.map(item => (subTotal += item.total));
+    cart.map((item) => (subTotal += item.total));
     // NB: Tax rate used here is 10%
-    const tempTax = subTotal * .1;
+    const tempTax = subTotal * 0.1;
     const tax = parseFloat(tempTax.toFixed(2));
     const total = subTotal + tax;
     setCartSubtotal(subTotal);
     setCartTax(tax);
     setCartTotal(total);
-  }
+  };
 
   useEffect(() => {
-    addTotals(); 
+    addTotals();
   }, [addToCart]);
-  
-  
+
   useEffect(() => {
-    addTotals(); 
+    addTotals();
   }, [cart]);
 
   return <ProductContext.Provider value={{ cartTotal, cartTax, cartSubtotal, closeModal, openModal, products, details, cart, modalProduct, modalOpen, handleDetail, addToCart, increment, decrement, removeItem, clearCart }}>{children}</ProductContext.Provider>;

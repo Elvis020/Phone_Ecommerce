@@ -18,7 +18,7 @@ const Navbar = () => {
         </li>
       </ul>
 
-      <Link to="/" className="ml-auto">
+      <Link to="/cart" className="ml-auto">
         <ButtonContainer>
           <span className="mr-2">
             <FaCartPlus />
