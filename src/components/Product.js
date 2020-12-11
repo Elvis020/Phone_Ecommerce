@@ -3,11 +3,16 @@ import { Link } from "react-router-dom";
 import { ProductsWrapper } from "./Styled_Components";
 import { PropTypes } from "prop-types";
 import { FaCartPlus } from "react-icons/fa";
-import {useElvisContext} from '../Context_Api';
+import { useElvisContext } from "../Context_Api";
 
 const Product = ({ products }) => {
   const { id, title, img, price, inCart } = products;
-  const { handleDetail,addToCart } = useElvisContext();
+  const { handleDetail, addToCart, openModal } = useElvisContext();
+  const handleAddToCart = (id) => {
+    addToCart(id);
+    openModal(id);
+  };
+
   return (
     <ProductsWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
       <div className="card">
@@ -15,7 +20,7 @@ const Product = ({ products }) => {
           <Link to="/details">
             <img src={img} alt={title} className="card-img-top" />
           </Link>
-          <button className="cart-btn" disabled={inCart && true} onClick={() => addToCart(id)}>
+          <button className="cart-btn" disabled={inCart && true} onClick={() => handleAddToCart(id)}>
             {inCart ? (
               <p className="text-capitalize mb-0" disabled>
                 {" "}

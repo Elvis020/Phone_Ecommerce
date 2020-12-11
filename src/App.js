@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Default,Details,Navbar,ProductList,Cart} from './components';
+import {Default,Details,Navbar,ProductList,Cart,Modal} from './components';
 import {Switch,Route} from 'react-router-dom';
 function App() {
   return (
@@ -10,9 +10,10 @@ function App() {
     <Switch>
       <Route exact path='/' component={ProductList} />
       <Route path='/details' component={Details} />
-      <Route path='/store' component={Cart} />
+      <Route path='/cart' component={Cart} />
       <Route path='**' component={Default} />
     </Switch>
+    <Modal />
     </>
   );
 }

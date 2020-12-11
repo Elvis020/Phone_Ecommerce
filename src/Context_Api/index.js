@@ -4,11 +4,10 @@ import { storeProducts, detailProduct } from "../data";
 const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-
   const [products, setProducts] = useState([]);
   const [details, setDetails] = useState(detailProduct);
   const [cart, setCart] = useState([]);
-  const [Modal, setModal] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState(detailProduct);
 
   const getItem = (id) => {
@@ -43,12 +42,22 @@ export const ProductProvider = ({ children }) => {
     addedProduct.total = price;
     setCart([...cart, addedProduct]);
   };
+
+  const openModal = (id) => {
+    const selectedProduct = getItem(id);
+    setModalProduct(selectedProduct);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   useEffect(() => {
-    // console.log(state);
-    console.log("Cart:",cart);
+    console.log("Cart:", cart);
   }, [addToCart]);
 
-  return <ProductContext.Provider value={{ products, details, cart, handleDetail, addToCart }}>{children}</ProductContext.Provider>;
+  return <ProductContext.Provider value={{ closeModal, openModal, products, details, cart, modalProduct, modalOpen, handleDetail, addToCart }}>{children}</ProductContext.Provider>;
 };
 
 // Custom Hooks

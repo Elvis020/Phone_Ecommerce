@@ -4,8 +4,14 @@ import { ButtonContainer } from "./Styled_Components";
 import { useElvisContext } from "../Context_Api";
 
 const Details = () => {
-  const { details, addToCart } = useElvisContext();
+  const { details, addToCart,openModal } = useElvisContext();
   const { id, title, img, info, price, inCart, company } = details;
+
+
+  const handleAddToCart = (id) => {
+    addToCart(id);
+    openModal(id);
+  }
   return (
     <div className="container py-5">
       <div className="row">
@@ -34,7 +40,7 @@ const Details = () => {
           <Link to="/">
             <ButtonContainer>back to products</ButtonContainer>
           </Link>
-          <ButtonContainer cart onClick={() => addToCart(id)} disabled={inCart && true}>
+          <ButtonContainer cart onClick={() => handleAddToCart(id)} disabled={inCart && true}>
             {inCart ? "in cart" : "add to cart"}
           </ButtonContainer>
         </div>
