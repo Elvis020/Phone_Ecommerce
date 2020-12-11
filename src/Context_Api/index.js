@@ -76,10 +76,12 @@ export const ProductProvider = ({ children }) => {
       removeItem(id);
     } else {
       product.total = product.count * product.price;
-      setCart([...tempCart]);
     }
+    setCart([...tempCart]);
   };
-
+  useEffect(() => {
+    addTotals();
+  }, [increment, decrement]);
   const removeItem = (id) => {
     let tempProducts = [...products];
     let tempCart = [...cart];
@@ -112,15 +114,13 @@ export const ProductProvider = ({ children }) => {
     setCartTotal(total);
   };
 
-  // useEffect(() => {
-  //   addTotals();
-  // }, []);
   useEffect(() => {
     addTotals();
-  }, [increment, decrement]);
+  }, [addToCart]);
+
   useEffect(() => {
     addTotals();
-  }, [cart, addToCart]);
+  }, [cart]);
 
   return <ProductContext.Provider value={{ cartTotal, cartTax, cartSubtotal, closeModal, openModal, products, details, cart, modalProduct, modalOpen, handleDetail, addToCart, increment, decrement, removeItem, clearCart }}>{children}</ProductContext.Provider>;
 };
