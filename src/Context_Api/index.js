@@ -73,14 +73,13 @@ export const ProductProvider = ({ children }) => {
     const product = tempCart[index];
     product.count -= 1;
     if (product.count === 0) {
-      removeItem(id)
+      removeItem(id);
     } else {
       product.total = product.count * product.price;
       setCart([...tempCart]);
     }
   };
 
-  
   const removeItem = (id) => {
     let tempProducts = [...products];
     let tempCart = [...cart];
@@ -94,6 +93,9 @@ export const ProductProvider = ({ children }) => {
     setProducts([...tempProducts]);
   };
 
+  useEffect(() => {
+    addTotals();
+  }, [removeItem]);
   const clearCart = () => {
     setCart([]);
     productsCopy();
@@ -108,16 +110,17 @@ export const ProductProvider = ({ children }) => {
     setCartSubtotal(subTotal);
     setCartTax(tax);
     setCartTotal(total);
-    addTotals();
   };
 
   // useEffect(() => {
   //   addTotals();
   // }, []);
   useEffect(() => {
-    
-  }, [addTotals, increment, decrement, removeItem,cart, addToCart]);
-
+    addTotals();
+  }, [increment, decrement]);
+  useEffect(() => {
+    addTotals();
+  }, [cart, addToCart]);
 
   return <ProductContext.Provider value={{ cartTotal, cartTax, cartSubtotal, closeModal, openModal, products, details, cart, modalProduct, modalOpen, handleDetail, addToCart, increment, decrement, removeItem, clearCart }}>{children}</ProductContext.Provider>;
 };
