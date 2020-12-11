@@ -108,13 +108,14 @@ export const ProductProvider = ({ children }) => {
     setCartSubtotal(subTotal);
     setCartTax(tax);
     setCartTotal(total);
+    addTotals();
   };
 
   // useEffect(() => {
   //   addTotals();
   // }, []);
   useEffect(() => {
-    addTotals();
+    
   }, [addTotals, increment, decrement, removeItem,cart, addToCart]);
 
 
