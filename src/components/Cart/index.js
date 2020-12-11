@@ -4,6 +4,7 @@ import CartColumns from "./CartColumns";
 import EmptyCart from "./EmptyCart";
 import CartList from "./CartList";
 import { useElvisContext } from "../../Context_Api";
+import CartTotals from "./CartTotals";
 
 const Cart = () => {
   const { ...items } = useElvisContext();
@@ -15,6 +16,7 @@ const Cart = () => {
           <Title name="your" title="cart" />
           <CartColumns />
           <CartList value={cart} otherValues={items} />
+          <CartTotals otherValues={items} />
         </>
       )) || <EmptyCart />}
     </section>

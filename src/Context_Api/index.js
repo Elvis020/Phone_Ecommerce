@@ -6,7 +6,7 @@ const ProductContext = createContext();
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [details, setDetails] = useState(detailProduct);
-  const [cart, setCart] = useState(storeProducts);
+  const [cart, setCart] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState(detailProduct);
   const [cartSubtotal, setCartSubtotal] = useState(0);
@@ -66,12 +66,29 @@ export const ProductProvider = ({ children }) => {
     console.log("Item removed 🤩");
   };
   const clearCart = () => {
-    console.log("Cart was cleared 🛒");
+    setCart([]);
+    productsCopy();
   };
+  const addTotals = () => {
+    let subTotal = 0;
+    cart.map(item => (subTotal += item.total));
+    // NB: Tax rate used here is 10%
+    const tempTax = subTotal * .1;
+    const tax = parseFloat(tempTax.toFixed(2));
+    const total = subTotal + tax;
+    setCartSubtotal(subTotal);
+    setCartTax(tax);
+    setCartTotal(total);
+  }
 
   useEffect(() => {
-    console.log("Cart:", cart);
+    addTotals(); 
   }, [addToCart]);
+  
+  
+  useEffect(() => {
+    addTotals(); 
+  }, [cart]);
 
   return <ProductContext.Provider value={{ cartTotal, cartTax, cartSubtotal, closeModal, openModal, products, details, cart, modalProduct, modalOpen, handleDetail, addToCart, increment, decrement, removeItem, clearCart }}>{children}</ProductContext.Provider>;
 };

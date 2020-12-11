@@ -2,7 +2,6 @@ import React from "react";
 import CartItem from "./CartItem";
 
 const CartList = ({value,otherValues}) => {
-    // console.log(value);
   return (
     <div className="container-fluid">
       {value.map((item) => (
